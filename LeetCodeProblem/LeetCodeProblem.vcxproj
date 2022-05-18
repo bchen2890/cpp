@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BestTimeToBuyAndSellStock.cpp" />
     <ClCompile Include="LeetCodeProblem.cpp" />
     <ClCompile Include="TwoSum.cpp" />
   </ItemGroup>

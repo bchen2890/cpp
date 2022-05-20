@@ -35,6 +35,8 @@ namespace ContainsDuplicateTest
 			ContainsDuplicate  duplicate;
 			bool sol = duplicate.solutionBruteForce(nums);
 			Assert::AreEqual(expected, sol);
+			sol = duplicate.solutionSortBefore(nums);
+			Assert::AreEqual(expected, sol);
 		}
 	};
 

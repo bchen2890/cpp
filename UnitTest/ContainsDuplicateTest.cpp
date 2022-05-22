@@ -37,6 +37,8 @@ namespace ContainsDuplicateTest
 			Assert::AreEqual(expected, sol);
 			sol = duplicate.solutionSortBefore(nums);
 			Assert::AreEqual(expected, sol);
+			sol = duplicate.solutionMap(nums);
+			Assert::AreEqual(expected, sol);
 		}
 	};
 

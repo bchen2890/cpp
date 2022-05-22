@@ -32,4 +32,18 @@ public:
                     return true;
         return false;
     }
+
+    /**
+     * Map Solution. Complexity O(n)
+     */
+    bool solutionMap(vector<int>& nums) {
+        std::unordered_map<int, int> numsMap;
+
+        for (int i = 0; i < nums.size(); i++) {
+            if (numsMap.count(nums[i]) > 0)
+                return true;
+            numsMap[nums[i]] = i;
+        }
+        return false;
+    }
 };

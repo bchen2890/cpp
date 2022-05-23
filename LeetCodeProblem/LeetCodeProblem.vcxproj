@@ -142,6 +142,7 @@
     <ClCompile Include="BestTimeToBuyAndSellStock.cpp" />
     <ClCompile Include="ContainsDuplicate.cpp" />
     <ClCompile Include="LeetCodeProblem.cpp" />
+    <ClCompile Include="ProductOfArrayExceptSelf.cpp" />
     <ClCompile Include="TwoSum.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

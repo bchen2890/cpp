@@ -39,7 +39,7 @@ int main() {
         return -1;
     }
 
-    cout << "The first " << n << " numbers of the Sequence: ";
+    cout << "The first " << n << " numbers of the Fibonacci Sequence: ";
     for (int i=0; i<fibonacciList.size()-1; i++)
         cout << fibonacciList[i] << ", ";
     cout << nFib << endl;

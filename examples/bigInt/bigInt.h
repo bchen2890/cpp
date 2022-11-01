@@ -7,22 +7,26 @@ class BigInt;
 
 
 class BigInt {
-    string value;
+    string digits = "0";
     bool sign = false;
 public:
 
     //Constructors:
-    BigInt(unsigned long long n = 0);
+    BigInt();
+    BigInt(long long n);
     BigInt(BigInt &);
-    BigInt(string &);
-    BigInt(const char *);
+    BigInt(const string &);
+
+    string getDigits() const;
+    bool getSign() const;
+    string align(const unsigned long) const;
 
     //Arithmetic operators:
-    BigInt operator + (BigInt const &other);
-    BigInt operator - (BigInt const &other);
-    BigInt operator * (BigInt const &other);
-    BigInt operator / (BigInt const &other);
-    BigInt operator % (BigInt const &other);
+    BigInt operator+(const BigInt&) const;
+    BigInt operator-(const BigInt&) const;
+    BigInt operator*(const BigInt&) const;
+    BigInt operator/(const BigInt&) const;
+    BigInt operator%(const BigInt&) const;
 
     //Relational operators:
     bool operator == (const BigInt&);
@@ -33,11 +37,11 @@ public:
     bool operator < (const BigInt&);
 
     //Stream operators:
-    friend ostream & operator << (ostream &out, const BigInt &n);
-    friend istream & operator >> (istream &in,  BigInt &n);
+    friend ostream & operator << (ostream &os, const BigInt &n);
+    friend istream & operator >> (istream &is,  BigInt &n);
     
     //Others:
-    unsigned long length();
+    unsigned long length() const;
     friend BigInt pow(BigInt &a, BigInt &b);
     friend BigInt sqrt(BigInt &a);
     friend BigInt factorial(int n);

@@ -38,9 +38,9 @@ bool BigInt::getSign() const{
     return sign;
 }
 
-string BigInt::align(const unsigned long l) const{
+string BigInt::align(const long l) const{
     string aligned = digits;
-    for (unsigned long i=0; i<l; i++){
+    for (long i=0; i<l; i++){
         aligned = "0" + aligned;
     }
     return aligned;
@@ -55,22 +55,25 @@ unsigned long BigInt::length() const{
 
 
 ostream &operator<<(ostream &os,const BigInt &n) {
-    if (n.length() == 0 || n.getDigits() == "0") {
-        return os << "0";
-    }
-    if (n.getSign()) os << '-';
-
-        os << n.getDigits();
-    return os;
+    return os << n.toString();
 }
 
-BigInt BigInt::operator+(const BigInt & other) const{
+string BigInt::toString() const{
+    if (length() == 0 || getDigits() == "0") {
+        return "0";
+    }
+    if(getSign())
+        return "-" + getDigits();
+    else
+        return getDigits();
+}
+
+string BigInt::addDigits(const BigInt& other) const{
     int carry = 0, s, i;
-    int n = length(), m = other.length();
+    int n = other.length();
     string a = getDigits(), b = other.getDigits();
-     if(m > n)
-        a = align(m - n);
-    n = m;
+
+    a = align(n - length());
 
     const int ASCCI_ZERO_PLACE = 48;
     for (long i = n-1; i>=0; i--){
@@ -82,10 +85,84 @@ BigInt BigInt::operator+(const BigInt & other) const{
     if (carry)
         a = "1" + a;
 
-    return *new BigInt(a);
+    return a;
+}
+
+string BigInt::subtractDigits(const BigInt& other) const {
+    int carry = 0, s, i;
+    int n = length();
+    if( other.length() > n )
+        return other.subtractDigits(*this);
+    string a = getDigits(), b = other.align(n - other.length());
+    const int ASCCI_ZERO_PLACE = 48;
+    for (long i = n-1; i>=0; i--){
+        s = a[i] - b[i] - carry;
+        carry = 0;
+        if (s<0){
+            s+=10;
+            carry = 1;
+        }
+        a[i] = (char) (s + ASCCI_ZERO_PLACE);
+    }
+
+    return a;
+}
+
+BigInt& BigInt::operator+(const BigInt & other) const {
+    //a + (-b) = a - b
+    if (!getSign() && other.getSign()) {
+       // return *((new BigInt(getDigits())) - (new BigInt(other.getDigits())));
+    }
+
+    //(-a) + b = b - a
+    if (getSign() && !other.getSign()) {
+       // return *((new BigInt(other.getDigits())) - (new BigInt(getDigits())));
+    }
+
+    // a + b
+    std::string result = addDigits(other);
+
+    //(-a) + (-b) = -(a + b)
+    if (getSign() && other.getSign()) 
+        result = '-' + result;
+
+    cout << "result = " << result << endl;
+    return *new BigInt(result);
 }
 
 
+
+BigInt& BigInt::operator-(const BigInt &other) const {
+    // 0 - b = -b
+    //if (length() == 0)
+
+    // a - 0 = a
+    if (other.length() == 0)
+        return *new BigInt(digits);
+
+    // a - b
+    if (!getSign() && !other.getSign()) {
+        return *new BigInt(subtractDigits(other));
+    }
+
+    // a - (-b) = a + b
+    if (!getSign() && other.getSign())
+        return *new BigInt(this->addDigits(other));
+
+    // (-a) - b = - (a + b)
+    if (getSign() && !other.getSign()) 
+        return *new BigInt('-' + this->addDigits(other));
+    
+    //(-a) - (-b) = b - a
+    BigInt temp1 = *new BigInt(digits); 
+    BigInt temp2 = *new BigInt(other.digits);
+
+    return temp2 - temp1;
+}
+
+BigInt& BigInt::operator*(const BigInt &other) const {
+    return *new BigInt(other.getDigits());
+}
 
 
 

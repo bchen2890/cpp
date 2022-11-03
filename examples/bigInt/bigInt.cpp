@@ -53,7 +53,6 @@ unsigned long BigInt::length() const{
 }
 
 
-
 ostream &operator<<(ostream &os,const BigInt &n) {
     return os << n.toString();
 }
@@ -104,29 +103,27 @@ string BigInt::subtractDigits(const BigInt& other) const {
         }
         a[i] = (char) (s + ASCCI_ZERO_PLACE);
     }
-
-    return a;
+    // remove zeros
+    size_t index = a.find_first_not_of("0");
+    return a.substr(index);
 }
 
 BigInt& BigInt::operator+(const BigInt & other) const {
-    //a + (-b) = a - b
-    if (!getSign() && other.getSign()) {
-       // return *((new BigInt(getDigits())) - (new BigInt(other.getDigits())));
-    }
-
-    //(-a) + b = b - a
-    if (getSign() && !other.getSign()) {
-       // return *((new BigInt(other.getDigits())) - (new BigInt(getDigits())));
-    }
-
+    // a + (-b) = a - b
+    if (!getSign() && other.getSign()) 
+        return *new BigInt(getDigits()) - *new BigInt(other.getDigits());
+    
+    // (-a) + b = b - a
+    if (getSign() && !other.getSign()) 
+        return *new BigInt(other.getDigits()) - *new BigInt(getDigits());
+    
     // a + b
     std::string result = addDigits(other);
 
-    //(-a) + (-b) = -(a + b)
+    // (-a) + (-b) = -(a + b)
     if (getSign() && other.getSign()) 
         result = '-' + result;
 
-    cout << "result = " << result << endl;
     return *new BigInt(result);
 }
 
@@ -134,15 +131,19 @@ BigInt& BigInt::operator+(const BigInt & other) const {
 
 BigInt& BigInt::operator-(const BigInt &other) const {
     // 0 - b = -b
-    //if (length() == 0)
-
+    if (length() == 0)
+        return *new BigInt("-" + other.getDigits());
+        
     // a - 0 = a
     if (other.length() == 0)
-        return *new BigInt(digits);
+        return *new BigInt(getDigits());
 
     // a - b
     if (!getSign() && !other.getSign()) {
-        return *new BigInt(subtractDigits(other));
+        if(*this > other)
+            return *new BigInt(subtractDigits(other));
+        // a - b = - (b - a)
+        return *new BigInt("-" + other.subtractDigits(*this));
     }
 
     // a - (-b) = a + b
@@ -154,15 +155,62 @@ BigInt& BigInt::operator-(const BigInt &other) const {
         return *new BigInt('-' + this->addDigits(other));
     
     //(-a) - (-b) = b - a
-    BigInt temp1 = *new BigInt(digits); 
-    BigInt temp2 = *new BigInt(other.digits);
-
-    return temp2 - temp1;
+    return *new BigInt(other.getDigits()) - *new BigInt(getDigits());
 }
 
 BigInt& BigInt::operator*(const BigInt &other) const {
+
+    if(length() == 0 || other.length() == 0){
+        return *new BigInt();
+    }
+
     return *new BigInt(other.getDigits());
 }
 
 
+bool BigInt::operator> (const BigInt& other) const{
+    // a > -b
+    if (getSign() && !other.getSign())
+        return false;
+    // b > -a
+    if (!getSign() && other.getSign())
+        return true;
+
+    unsigned long n = length(), m = other. length();
+    string a = getDigits(), b = other.getDigits();
+
+    //both negative
+    if (getSign() && other.getSign()) {
+        if (n > m)
+            return false;
+
+        if (n < m)
+            return true;
+
+        for (long i = 0; i < n; i++) {
+            if (a[i] > b[i])
+                return false;
+
+            if (a[i] < b[i])
+                return true;
+        }
+    } else { //both positive
+        if (n > m)
+            return true;
+
+        if (n < m)
+            return false;
+
+        for (long i = 0; i < n; i++) {
+            if (a[i] > b[i])
+                return true;
+
+            if (a[i] < b[i])
+                return false;
+        }
+    }
+
+    // a == b
+    return false;
+}
 

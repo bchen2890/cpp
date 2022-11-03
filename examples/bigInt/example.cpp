@@ -23,7 +23,7 @@ void test(long a, long b, char op){
         cout << "(" << intA << ") " << op << " (" << intB << ") = " << result << endl; 
     else
         cout << "Error: (" << a << ") " << op << " (" << b 
-                << ") expected " << expected << " but got " << result << endl;
+                << ") expected to be " << expected << " but got " << result << endl;
 }
 int main() {
 
@@ -43,17 +43,20 @@ int main() {
     cout << "f = " << f << endl; 
 
     // Test arithmetic operators
+    test(0, 0, '+');
     test(78379, 26114, '+');
     test(-214348, -6298457, '+');
-    test(0, 0, '+');
+    test(4219, -129357, '+');
+    test(-97307, 81938, '+');
 
     test(0, 0, '-');
     test(2472, 0, '-');
+    test(0, 6811, '-');
+    test(78379, 26114, '-');
+    test(18379, 26114, '-');
     test(78379, -26114, '-');
     test(-182434, 4572689, '-');
     test(-182434, -4572689, '-');
-
-    //test(num1, num2, '-');
 
     return 0;
 }

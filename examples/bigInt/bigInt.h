@@ -29,12 +29,12 @@ public:
     BigInt& operator%(const BigInt&) const;
 
     //Relational operators:
-    bool operator == (const BigInt&);
-    bool operator != (const BigInt&);
-    bool operator >= (const BigInt&);
-    bool operator <= (const BigInt&);
-    bool operator > (const BigInt&);
-    bool operator < (const BigInt&);
+    bool operator == (const BigInt&) const;
+    bool operator != (const BigInt&) const;
+    bool operator >= (const BigInt&) const;
+    bool operator <= (const BigInt&) const;
+    bool operator > (const BigInt&) const;
+    bool operator < (const BigInt&) const;
 
     //Stream operators:
     friend ostream & operator << (ostream &os, const BigInt &n);
@@ -51,6 +51,7 @@ public:
     private:
     string subtractDigits(const BigInt&) const;
     string addDigits(const BigInt&) const;
+
 };
 
 #endif //BIG_INT_H

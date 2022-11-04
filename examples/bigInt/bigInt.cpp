@@ -214,3 +214,83 @@ bool BigInt::operator> (const BigInt& other) const{
     return false;
 }
 
+bool BigInt::operator< (const BigInt& other) const{
+    // a > -b
+    if (getSign() && !other.getSign())
+        return true;
+    // b > -a
+    if (!getSign() && other.getSign())
+        return false;
+
+    unsigned long n = length(), m = other. length();
+    string a = getDigits(), b = other.getDigits();
+
+    //both negative
+    if (getSign() && other.getSign()) {
+        if (n > m)
+            return true;
+
+        if (n < m)
+            return false;
+
+        for (long i = 0; i < n; i++) {
+            if (a[i] > b[i])
+                return true;
+
+            if (a[i] < b[i])
+                return false;
+        }
+    } else { //both positive
+        if (n > m)
+            return false;
+
+        if (n < m)
+            return true;
+
+        for (long i = 0; i < n; i++) {
+            if (a[i] > b[i])
+                return false;
+
+            if (a[i] < b[i])
+                return true;
+        }
+    }
+
+    // a == b
+    return false;
+}
+
+bool BigInt::operator == (const BigInt& other) const{
+    
+    unsigned long n = length(), m = other.length();
+
+    if (n == 0 && m == 0)
+        return true;
+
+    if (n != m)
+        return false;
+
+    if (getSign() != other.getSign())
+        return false;
+
+    string a = getDigits(), b = other.getDigits();
+
+    for(long i = 0; i < n; i++){
+        if (a[i] != b[i])
+            return false;
+    }
+
+    return true;
+}
+
+bool BigInt::operator != (const BigInt& other) const{
+    return !(*this == other);
+}
+
+bool BigInt::operator <= (const BigInt& other) const{
+    return !(*this > other);
+}
+
+bool BigInt::operator >= (const BigInt& other) const{
+    return !(*this < other);
+}

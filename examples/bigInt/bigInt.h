@@ -51,6 +51,7 @@ public:
     private:
     string subtractDigits(const BigInt&) const;
     string addDigits(const BigInt&) const;
+    string multiply(const BigInt&) const;
 
 };
 

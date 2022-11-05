@@ -17,6 +17,10 @@ void testArithmetic(long a, long b, char op){
             result = intA - intB;
             expected = a - b;
             break;
+        case '*':
+            result = intA * intB;
+            expected = a * b;
+            break;
         default:
             break;
     }
@@ -84,15 +88,23 @@ int main() {
     testArithmetic(-214348, -6298457, '+');
     testArithmetic(4219, -129357, '+');
     testArithmetic(-97307, 81938, '+');
+    testArithmetic(5, 4, '+');
 
     testArithmetic(0, 0, '-');
+
     testArithmetic(2472, 0, '-');
     testArithmetic(0, 6811, '-');
-    testArithmetic(78379, 26114, '-');
+    testArithmetic(78370, 2611, '-');
     testArithmetic(18379, 26114, '-');
     testArithmetic(78379, -26114, '-');
     testArithmetic(-182434, 4572689, '-');
     testArithmetic(-1248754, -7287542, '-');
+
+    testArithmetic(0, 0, '*');
+    testArithmetic(12345, 6789, '*');
+    testArithmetic(-214348, -6298457, '*');
+    testArithmetic(4219, -129357, '*');
+    testArithmetic(-97307, 81938, '*');
 
     // Test relational operators
     vector<string> compOps = {">", "<", ">=", "<=", "==", "!="};

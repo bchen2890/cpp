@@ -22,12 +22,16 @@ BigInt::BigInt(BigInt & other){
 }
 
 BigInt::BigInt(const string & s){
-    digits = "";
     if(s[0] == '-') {
         sign = true;
-        digits = s.substr(1);
-    } else
-        digits.append(s);
+    } else {
+        size_t found = s.find_first_not_of("0");
+        if(found != string::npos){
+            digits = s.substr(found);
+        } else {
+            digits = "0";
+        }
+    }
 }
 
 string BigInt::getDigits() const{
@@ -104,8 +108,55 @@ string BigInt::subtractDigits(const BigInt& other) const {
         a[i] = (char) (s + ASCCI_ZERO_PLACE);
     }
     // remove zeros
-    size_t index = a.find_first_not_of("0");
-    return a.substr(index);
+    return a.substr(a.find_first_not_of("0"));
+}
+
+string BigInt::multiply(const BigInt& other) const {
+    // Karatsuba algorithm
+    int n = length()>other.length()?length(): other.length();
+    cout<< "a2=" << getDigits() << ", b2=" << other.getDigits() << endl;
+
+    const int ASCCI_ZERO_PLACE = 48;
+    string a = align(n-length()), b = other.align(n - other.length());
+
+    if(n == 1)
+        return to_string((a[0]-ASCCI_ZERO_PLACE)*(b[0]-ASCCI_ZERO_PLACE));
+
+    int m = n/2;
+    cout<< "m=" << m << ", n=" << n << endl;
+    BigInt x0 = *new BigInt(a.substr(0, m));
+    BigInt x1 = *new BigInt(a.substr(m, n-m));
+    BigInt y0 = *new BigInt(b.substr(0, m));
+    BigInt y1 = *new BigInt(b.substr(m, n-m));
+    cout<< "a=" << a << ", b=" << b << endl;
+
+    cout<< "x0=" << x0 << ", x1=" << x1 
+    << ", y0=" << y0
+    << ", y1=" << y1 << endl;
+
+    BigInt z2 = *new BigInt(x1.multiply(y1));
+    BigInt z0 = *new BigInt(x0.multiply(y0));
+        cout<< "z2=" << z2 << ", z0=" << z0 
+     << ", x1+x0 =" << x1+x0 << endl;
+    BigInt z1 = *new BigInt((x1+x0).multiply(y1+y0)) - z2 - z0;
+
+    string aux_z2B2m = z2.getDigits();
+    string aux_z1Bm = z1.getDigits();
+
+    for (int i = 0; i < m-1; i++){
+        aux_z2B2m.append("00");
+        aux_z1Bm.append("0");
+    }
+
+    BigInt z2B2m = *new BigInt(aux_z2B2m);
+    BigInt z1Bm = *new BigInt(aux_z1Bm);
+
+    cout<< "z2B2m=" << z2B2m << ", z1Bm=" << z1Bm << endl;
+         
+    BigInt result = *new BigInt(z2B2m + z1Bm + z0);
+    cout<< "result=" << result << endl;
+
+    return result.getDigits();
 }
 
 BigInt& BigInt::operator+(const BigInt & other) const {
@@ -159,12 +210,17 @@ BigInt& BigInt::operator-(const BigInt &other) const {
 }
 
 BigInt& BigInt::operator*(const BigInt &other) const {
-
-    if(length() == 0 || other.length() == 0){
+    unsigned long n = length(), m = other.length();
+    if(n == 0 || m == 0){
         return *new BigInt();
     }
 
-    return *new BigInt(other.getDigits());
+    string result = (*this).multiply(other);
+
+    if(getSign()!=other.getSign())
+        return *new BigInt("-" + result);
+
+    return *new BigInt(result);
 }
 
 

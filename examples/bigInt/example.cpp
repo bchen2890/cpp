@@ -4,9 +4,9 @@
 #include<vector>
 using namespace std;
 
-void testArithmetic(long a, long b, char op){
+void testArithmetic(long long a, long long b, char op){
     BigInt result, intA(a), intB(b);
-    long expected = 0;
+    long long expected = 0;
     switch (op)
     {
         case '+':
@@ -91,7 +91,6 @@ int main() {
     testArithmetic(5, 4, '+');
 
     testArithmetic(0, 0, '-');
-
     testArithmetic(2472, 0, '-');
     testArithmetic(0, 6811, '-');
     testArithmetic(78370, 2611, '-');
@@ -101,10 +100,17 @@ int main() {
     testArithmetic(-1248754, -7287542, '-');
 
     testArithmetic(0, 0, '*');
+    testArithmetic(10, 1, '*');
+    testArithmetic(1, 72, '*');
+    testArithmetic(10, 5, '*');
+    testArithmetic(0, 235, '*');
+    testArithmetic(5635, 0, '*');
     testArithmetic(12345, 6789, '*');
+    testArithmetic(678, 27491, '*');
     testArithmetic(-214348, -6298457, '*');
     testArithmetic(4219, -129357, '*');
-    testArithmetic(-97307, 81938, '*');
+    testArithmetic(-97307, 8193, '*');
+    testArithmetic(909090909, 11, '*');
 
     // Test relational operators
     vector<string> compOps = {">", "<", ">=", "<=", "==", "!="};

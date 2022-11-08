@@ -26,6 +26,7 @@ public:
     BigInt& operator-(const BigInt&) const;
     BigInt& operator*(const BigInt&) const;
     BigInt& operator/(const BigInt&) const;
+    //always positive result
     BigInt& operator%(const BigInt&) const;
 
     //Relational operators:

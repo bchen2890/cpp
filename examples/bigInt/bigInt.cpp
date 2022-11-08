@@ -281,6 +281,25 @@ BigInt& BigInt::operator/(const BigInt &divider) const {
         return *new BigInt(MINUS_CHAR + result);
 }
 
+BigInt& BigInt::operator%(const BigInt &divider) const {
+    if(divider.length()==0)
+        throw runtime_error ("Error: Attemped to modulo by Zero\n");
+    // 0%b = 0 & a%1= 0    
+    if(length()==0 || divider.getDigits()==ONE_VALUE)
+        return *new BigInt();
+
+    //always positive result
+    BigInt abs_dividend = *new BigInt(getDigits());
+    BigInt abs_divider = *new BigInt(divider.getDigits());
+    if(abs_divider > abs_dividend)
+        return *new BigInt(abs_dividend);
+
+    BigInt quotient = abs_dividend / abs_divider;
+    BigInt remainder = abs_dividend - (abs_divider * quotient);
+
+    return *new BigInt(remainder);
+}
+
 
 bool BigInt::operator> (const BigInt& other) const{
     // a > -b

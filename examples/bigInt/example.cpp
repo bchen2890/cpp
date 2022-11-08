@@ -1,7 +1,8 @@
 #include "bigInt.h"
-
 #include<iostream>
 #include<vector>
+#include <stdlib.h>     /* abs */
+
 using namespace std;
 
 void testArithmetic(long long a, long long b, char op){
@@ -24,6 +25,10 @@ void testArithmetic(long long a, long long b, char op){
         case '/':
             result = intA / intB;
             expected = a / b;
+            break;
+        case '%':
+            result = intA % intB;
+            expected = abs(a % b);
             break;
         default:
             break;
@@ -136,6 +141,15 @@ int main() {
     testArithmetic(900000009, 11, '/');
 
 
+    // testArithmetic(0, 0, '%'); // throw error
+    testArithmetic(0, 13, '%');
+    testArithmetic(24747, 1, '%');
+    testArithmetic(8, 9, '%');
+    testArithmetic(900000009, 11, '%');
+    testArithmetic(-8963, 11, '%');
+    testArithmetic(180, -11, '%');
+    testArithmetic(81924, 123, '%');
+    testArithmetic(81918, 123, '%');
 
     // Test relational operators
     vector<string> compOps = {">", "<", ">=", "<=", "==", "!="};

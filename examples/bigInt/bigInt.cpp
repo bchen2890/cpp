@@ -14,9 +14,9 @@ BigInt::BigInt(){
 }
 
 BigInt::BigInt(long long n){
-    sign = 0;
+    sign = false;
     if (n < 0){
-        sign = 1;
+        sign = true;
         n *= -1;
     }
     digits = to_string(n);
@@ -223,12 +223,13 @@ BigInt& BigInt::operator*(const BigInt &other) const {
         return *new BigInt();
     }
     
+    string result = "0";
     if(getDigits()==ONE_VALUE)
-        return *new BigInt(other.getDigits());
-    if(other.getDigits()==ONE_VALUE)
-        return *new BigInt(getDigits());  
-
-    string result = (*this).multiply(other);
+        result = other.getDigits();
+    else if(other.getDigits()==ONE_VALUE)
+        result = getDigits();  
+    else
+        result = (*this).multiply(other);
 
     if(getSign()!=other.getSign())
         return *new BigInt(MINUS_CHAR + result);
@@ -426,4 +427,13 @@ bool BigInt::operator <= (const BigInt& other) const{
 
 bool BigInt::operator >= (const BigInt& other) const{
     return !(*this < other);
+}
+
+BigInt & pow (BigInt &base, BigInt &exp){
+    if(exp.getDigits()==ZERO_VALUE)
+        return *new BigInt(ONE_VALUE);
+    if(exp < 0)
+        return *new BigInt(ZERO_VALUE);
+
+    return base * pow(base, exp-1);
 }

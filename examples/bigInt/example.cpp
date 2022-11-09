@@ -2,6 +2,7 @@
 #include<iostream>
 #include<vector>
 #include <stdlib.h>     /* abs */
+#include <math.h>       /* pow */
 
 using namespace std;
 
@@ -34,10 +35,12 @@ void testArithmetic(long long a, long long b, char op){
             break;
     }
     if(to_string(expected) == result.toString())
-        cout << "(" << intA << ") " << op << " (" << intB << ") = " << result << endl; 
+        cout << "(" << intA << ") " << op << " (" 
+                << intB << ") = " << result << endl; 
     else
         cout << "Error: (" << a << ") " << op << " (" << b 
-                << ") expected to be " << expected << " but got " << result << endl;
+                << ") expected to be " << expected 
+                << " but got " << result << endl;
 }
 
 void testRelational(long a, long b, string op){
@@ -68,10 +71,30 @@ void testRelational(long a, long b, string op){
  
     string boolString = result? "true": "false";
     if(result == expected)
-        cout << "(" << intA << ") " << op << " (" << intB << ") = " << boolString << endl; 
+        cout << "(" << intA << ") " << op 
+                << " (" << intB << ") = " << boolString << endl; 
     else
         cout << "Error: (" << a << ") " << op << " (" << b 
-                << ") expected to be " << expected << " but got " << boolString << endl;
+                << ") expected to be " << expected 
+                << " but got " << boolString << endl;
+}
+
+void testFunctions(long long a, long long b, string func){
+    BigInt result, intA(a), intB(b);
+    long long expected = 0;
+    if(func == "pow"){
+        result = pow(intA, intB);
+        expected = long(pow(a, b));
+    } else if(func == ""){
+
+    } 
+    if(to_string(expected) == result.toString())
+        cout << func << " (" << intA << "," << intB 
+        << ") = " << result << endl; 
+    else
+        cout << "Error:" << func << " (" << intA << "," << intB 
+                << ") expected to be " << expected 
+                << " but got " << result << endl;
 }
 
 int main() {
@@ -120,6 +143,9 @@ int main() {
     testArithmetic(4219, -129357, '*');
     testArithmetic(-97307, 8193, '*');
     testArithmetic(909090909, 11, '*');
+    testArithmetic(-1, 1, '*');
+    testArithmetic(-1, -1, '*');
+    testArithmetic(1, -1, '*');
 
     // testArithmetic(0, 0, '/'); // throw error
     testArithmetic(0, 1, '/');
@@ -171,5 +197,22 @@ int main() {
         testRelational(7395, 37395, compOps[i]);
         testRelational(98396, 98396, compOps[i]);
     }
+
+    testFunctions(8, 0, "pow");
+    testFunctions(2, 1, "pow");
+    testFunctions(1, 23, "pow");
+    testFunctions(8, 0, "pow");
+    testFunctions(-1, 2, "pow");
+    testFunctions(-1, 3, "pow");
+    testFunctions(4, 3, "pow");
+    testFunctions(-3, 4, "pow");
+    testFunctions(3, -1, "pow");
+    testFunctions(-5, 5, "pow");
+    testFunctions(-24, -5, "pow");
+    testFunctions(-24, 3, "pow");
+    testFunctions(24, 6, "pow");
+    testFunctions(11, 8, "pow");
+    testFunctions(2, 10, "pow");
+
     return 0;
 }

@@ -79,20 +79,31 @@ void testRelational(long a, long b, string op){
                 << " but got " << boolString << endl;
 }
 
-void testFunctions(long long a, long long b, string func){
-    BigInt result, intA(a), intB(b);
-    long long expected = 0;
-    if(func == "pow"){
-        result = pow(intA, intB);
-        expected = long(pow(a, b));
-    } else if(func == ""){
+void testPow(long long a, long long b){
+    BigInt intA(a), intB(b);
+    long long expected = long(pow(a, b));
+    BigInt result = pow(intA, intB);
 
-    } 
     if(to_string(expected) == result.toString())
-        cout << func << " (" << intA << "," << intB 
+        cout << "pow(" << intA << "," << intB 
         << ") = " << result << endl; 
     else
-        cout << "Error:" << func << " (" << intA << "," << intB 
+        cout << "Error:" << "pow(" << intA << "," << intB 
+                << ") expected to be " << expected 
+                << " but got " << result << endl;
+}
+
+void testNFunction(int n, string func, string expected){
+    BigInt result;
+    if(func == "factorial"){
+        result = factorial(n);
+    } else if(func == "fibonacci"){
+        result = fibonacci(n);
+    }
+    if(expected == result.toString())
+        cout << func << "(" << n << ") = " << result << endl; 
+    else
+        cout << "Error:"  << func << "(" << n 
                 << ") expected to be " << expected 
                 << " but got " << result << endl;
 }
@@ -198,21 +209,34 @@ int main() {
         testRelational(98396, 98396, compOps[i]);
     }
 
-    testFunctions(8, 0, "pow");
-    testFunctions(2, 1, "pow");
-    testFunctions(1, 23, "pow");
-    testFunctions(8, 0, "pow");
-    testFunctions(-1, 2, "pow");
-    testFunctions(-1, 3, "pow");
-    testFunctions(4, 3, "pow");
-    testFunctions(-3, 4, "pow");
-    testFunctions(3, -1, "pow");
-    testFunctions(-5, 5, "pow");
-    testFunctions(-24, -5, "pow");
-    testFunctions(-24, 3, "pow");
-    testFunctions(24, 6, "pow");
-    testFunctions(11, 8, "pow");
-    testFunctions(2, 10, "pow");
+    testPow(8, 0);
+    testPow(2, 1);
+    testPow(1, 23);
+    testPow(8, 0);
+    testPow(-1, 2);
+    testPow(-1, 3);
+    testPow(4, 3);
+    testPow(-3, 4);
+    testPow(3, -1);
+    testPow(-5, 5);
+    testPow(-24, -5);
+    testPow(-24, 3);
+    testPow(24, 6);
+    testPow(11, 8);
+    testPow(2, 10);
+
+    testNFunction(1, "factorial", "1");
+    testNFunction(12, "factorial", "479001600");
+    testNFunction(100, "factorial", "93326215443944152681699238856266700490715968264381621468592963895217599993229915608941463976156518286253697920827223758251185210916864000000000000000000000000");
+    testNFunction(200, "factorial", "788657867364790503552363213932185062295135977687173263294742533244359449963403342920304284011984623904177212138919638830257642790242637105061926624952829931113462857270763317237396988943922445621451664240254033291864131227428294853277524242407573903240321257405579568660226031904170324062351700858796178922222789623703897374720000000000000000000000000000000000000000000000000");
+   
+    testNFunction(0, "fibonacci", "0");
+    testNFunction(1, "fibonacci", "1");
+    testNFunction(23, "fibonacci", "28657");
+    testNFunction(97, "fibonacci", "83621143489848422977");
+    testNFunction(241, "fibonacci", "103881042195729914708510518382775401680142036775841");
+    testNFunction(300, "fibonacci", "222232244629420445529739893461909967206666939096499764990979600");
+    testNFunction(999, "fibonacci", "26863810024485359386146727202142923967616609318986952340123175997617981700247881689338369654483356564191827856161443356312976673642210350324634850410377680367334151172899169723197082763985615764450078474174626");
 
     return 0;
 }

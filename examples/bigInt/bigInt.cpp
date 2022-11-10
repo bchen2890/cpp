@@ -437,3 +437,28 @@ BigInt & pow (BigInt &base, BigInt &exp){
 
     return base * pow(base, exp-1);
 }
+
+BigInt & factorial (BigInt &n){
+    return n * (n-1);
+}
+
+BigInt factorial (int n){
+    BigInt nInt(ONE_VALUE);
+    for(int i = 2; i <= n; i++){
+        nInt = nInt * i;
+    }
+    return nInt;
+}
+
+BigInt fibonacci (int n){
+    BigInt fib1(ZERO_VALUE), fib2(ONE_VALUE), fib3;
+    int index = 2;
+    if (n < 1) return fib1;
+    while (index <= n){
+        fib3 = fib1 + fib2;
+        fib1 = fib2;
+        fib2 = fib3;
+        index++;
+    }
+    return fib2;
+}

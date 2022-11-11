@@ -2,7 +2,7 @@
 #include<iostream>
 #include<vector>
 #include <stdlib.h>     /* abs */
-#include <math.h>       /* pow */
+#include <math.h>       /* pow, sqrt */
 
 using namespace std;
 
@@ -91,6 +91,18 @@ void testPow(long long a, long long b){
         cout << "Error:" << "pow(" << intA << "," << intB 
                 << ") expected to be " << expected 
                 << " but got " << result << endl;
+}
+
+void testSqrt(long long x){
+    BigInt intX(x);
+    unsigned long expected = (unsigned long)(sqrt(x));
+    BigInt result = sqrt(intX);
+
+    if(to_string(expected) == result.toString())
+        cout << "sqrt(" << intX << ") = " << result << endl; 
+    else
+        cout << "Error:" << "sqrt(" << intX << ") expected to be "
+                << expected << " but got " << result << endl;
 }
 
 void testNFunction(int n, string func, string expected){
@@ -238,5 +250,15 @@ int main() {
     testNFunction(300, "fibonacci", "222232244629420445529739893461909967206666939096499764990979600");
     testNFunction(999, "fibonacci", "26863810024485359386146727202142923967616609318986952340123175997617981700247881689338369654483356564191827856161443356312976673642210350324634850410377680367334151172899169723197082763985615764450078474174626");
 
+    testSqrt(0);
+    testSqrt(1);
+    testSqrt(4);
+    testSqrt(5);
+    testSqrt(8);
+    testSqrt(121);
+    testSqrt(9284);
+    testSqrt(89);
+    testSqrt(12345);
+    testSqrt(999999);
     return 0;
 }

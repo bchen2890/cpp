@@ -44,8 +44,8 @@ public:
     //Others:
     string toString() const;
     unsigned long length() const;
-    friend BigInt &pow(BigInt &exp, BigInt &base);
-    friend BigInt sqrt(BigInt &a);
+    friend BigInt &pow(BigInt &base, BigInt &exp);
+    friend BigInt &sqrt(BigInt &x);
     friend BigInt factorial(int n);
     friend BigInt fibonacci(int n);
 

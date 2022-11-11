@@ -429,17 +429,13 @@ bool BigInt::operator >= (const BigInt& other) const{
     return !(*this < other);
 }
 
-BigInt & pow (BigInt &base, BigInt &exp){
+BigInt &pow (BigInt &base, BigInt &exp){
     if(exp.getDigits()==ZERO_VALUE)
         return *new BigInt(ONE_VALUE);
     if(exp < 0)
         return *new BigInt(ZERO_VALUE);
 
     return base * pow(base, exp-1);
-}
-
-BigInt & factorial (BigInt &n){
-    return n * (n-1);
 }
 
 BigInt factorial (int n){
@@ -461,4 +457,30 @@ BigInt fibonacci (int n){
         index++;
     }
     return fib2;
+}
+
+BigInt &sqrt (BigInt &x){
+    if(x.getSign())
+        throw runtime_error ("Error: Attemped to square root negative integer\n");
+
+    if(x.getDigits()==ONE_VALUE || x.getDigits()==ZERO_VALUE)
+        return *new BigInt(x);
+
+    //Binary search
+    BigInt start(ONE_VALUE), end(x/2), result;
+    while (start <= end)
+    {
+        BigInt mid = (start + end) / 2;
+        BigInt squared = mid * mid;
+        if(squared == x)
+            return *new BigInt(mid);
+        if(squared < x){
+            start = mid + 1;
+            result = mid;
+        }
+        else 
+            end = mid - 1;
+    }
+
+    return *new BigInt(result);
 }

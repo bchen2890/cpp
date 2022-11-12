@@ -23,7 +23,8 @@ BigInt::BigInt(long long n){
 }
 
 BigInt::BigInt(BigInt & other){
-    digits = other.digits;
+    digits = other.getDigits();
+    sign = other.getSign();
 }
 
 BigInt::BigInt(const string & s){
@@ -223,14 +224,13 @@ BigInt& BigInt::operator*(const BigInt &other) const {
         return *new BigInt();
     }
     
-    string result = "0";
+    string result = ZERO_VALUE;
     if(getDigits()==ONE_VALUE)
         result = other.getDigits();
     else if(other.getDigits()==ONE_VALUE)
         result = getDigits();  
     else
         result = (*this).multiply(other);
-
     if(getSign()!=other.getSign())
         return *new BigInt(MINUS_CHAR + result);
 
@@ -434,7 +434,6 @@ BigInt &pow (BigInt &base, BigInt &exp){
         return *new BigInt(ONE_VALUE);
     if(exp < 0)
         return *new BigInt(ZERO_VALUE);
-
     return base * pow(base, exp-1);
 }
 

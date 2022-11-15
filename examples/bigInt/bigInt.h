@@ -44,10 +44,14 @@ public:
     //Others:
     string toString() const;
     unsigned long length() const;
+
+    friend BigInt reverse();
+    friend bool is_Palindrome(BigInt &x);
     friend BigInt &pow(BigInt &base, BigInt &exp);
     friend BigInt &sqrt(BigInt &x);
     friend BigInt factorial(int n);
     friend BigInt fibonacci(int n);
+    friend bool isLychrel(BigInt &x, const long iterCount = 1000);
 
     private:
     string subtractDigits(const BigInt&) const;

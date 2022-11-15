@@ -3,6 +3,7 @@
 #include<iostream>
 #include <string.h>
 #include <string>
+#include <bits/stdc++.h>
 
 const int ASCCI_ZERO_PLACE = 48;
 const string ZERO_VALUE = "0";
@@ -482,4 +483,30 @@ BigInt &sqrt (BigInt &x){
     }
 
     return *new BigInt(result);
+}
+
+BigInt reverse(BigInt &x) {
+    int n = x.length();
+    string revString = x.getDigits();
+    for (int i = 0; i < n / 2; i++)
+        swap(revString[i], revString[n - i - 1]);
+    return *new BigInt(revString);
+}
+
+bool is_Palindrome(BigInt &x) {
+    return (x == reverse(x));
+}
+
+bool isLychrel(BigInt &x, const long nIter)
+{
+    BigInt temp = x;
+    BigInt rev;
+    for (int i = 0; i < nIter; i++)
+    {
+        rev = reverse(temp);
+        if (is_Palindrome(rev + temp))
+            return false;
+        temp = temp + rev;
+    }
+    return true;
 }

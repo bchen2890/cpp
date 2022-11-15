@@ -125,6 +125,20 @@ void testNFunction(int n, string func, string expected){
                 << " but got " << result << endl;
 }
 
+void testLychrel(long n, long nIter, bool expected){
+    BigInt nInt(n);
+    bool result = isLychrel(nInt, nIter);
+    string boolString = result? "true": "false";
+
+    if(result == expected)
+        cout << "isLychrel(" << n << ", "<< nIter 
+                << ") = " << boolString << endl; 
+    else
+        cout << "Error: isLychrel(" << n << ", " << nIter
+                << ") expected to be " << expected 
+                << " but got " << boolString << endl;
+}
+
 int main() {
 
     // Check constructors
@@ -266,6 +280,14 @@ int main() {
     testSqrt(89);
     testSqrt(12345);
     testSqrt(999999);
+
+    testLychrel(56, 3, false);
+    testLychrel(57, 1, true);
+    testLychrel(57, 3, false);
+    testLychrel(89, 23, true);
+    testLychrel(89, 24, false);
+    testLychrel(10911, 56, false);
+    testLychrel(10911, 54, true);
 
     return 0;
 }
